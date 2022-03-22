@@ -1,5 +1,7 @@
 package practica_uf4.client;
 
+import practica_uf4.model.Missatge;
+
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
@@ -21,7 +23,8 @@ public class Client1 {
         Socket connexio = new Socket(ip, port);
         System.out.println("Connexió establerta.");
 
-        missatgeria(connexio);
+        menu();
+        assignarVaixells(connexio);
         connexio.close();
     }
     public static String obtenirConnexio(){
@@ -43,18 +46,7 @@ public class Client1 {
         return connexio;
     }
 
-    public static void missatgeria(Socket socket) throws IOException {
-
-        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-        ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-
-        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-
-        String str="", str2="", posicio="", orientacio="";
-
-        while(!finalitzat){
-
-            int i = 0;
+    public static void menu() {
 
             System.out.println("\nBenvingut al joc Enfonsar la Flota\n");
             System.out.println("En aquesta edició hi hauran 4 tipus de vaixell:");
@@ -64,54 +56,88 @@ public class Client1 {
             System.out.println("1 - Portaavions de 4 caselles\n");
             System.out.println("Aquest serà el taulell:\n");
             Client1.inizialitzarMapa();
-
-            while(i <= 8) {
-                i++;
-                System.out.println("\nQuin vaixell vols posar?");
-                System.out.println("Submarí = 'S'");
-                System.out.println("Destructor = 'D'");
-                System.out.println("Cuirassats = 'C'");
-                System.out.println("Portaavions = 'P'");
-                str = br.readLine();
-
-                switch (str){
-                    case "S":
-                        System.out.println("\nEn quina posició el vols situar?");
-                        posicio = br.readLine();
-                        System.out.println("\nAmb quina orientació?");
-                        orientacio = br.readLine();
-                        
-                        break;
-                    case "D":
-                        System.out.println("\nEn quina posició el vols situar?");
-                        posicio = br.readLine();
-                        System.out.println("\nAmb quina orientació?");
-                        orientacio = br.readLine();
-                        break;
-                    case "C":
-                        System.out.println("\nEn quina posició el vols situar?");
-                        posicio = br.readLine();
-                        System.out.println("\nAmb quina orientació?");
-                        orientacio = br.readLine();
-                        break;
-                    case "P":
-                        System.out.println("\nEn quina posició el vols situar?");
-                        posicio = br.readLine();
-                        System.out.println("\nAmb quina orientació?");
-                        orientacio = br.readLine();
-                        break;
-                    default:
-                        System.out.println("\nERROR!. No es reconeix el tipus de vaixell.");
-                }
-
-                out.writeUTF(str);
-                out.flush();
-                str2 = in.readUTF();
-                System.out.println("Servidor: " + str2);
-            }
         }
 
-        out.close();
+        public static void assignarVaixells(Socket socket) throws IOException{
+
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+
+            BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+
+            String rebut = "";
+            String[] posicions = new String[13];
+
+            int i = 0;
+
+            System.out.println("\nAssigna els 3 submarins de 1.");
+            while(i < 3) {
+                System.out.println("\nEn quina posició el vols situar el submarí numero " + i+1 + " (Exemple: A1)");
+                posicions[i] = br.readLine();
+                i++;
+            }
+
+            System.out.println("\nAssigna els 2 destructors de 2.");
+            while (i < 7) {
+                System.out.println("\nEn quina posició el vols situar(A1)?");
+                posicions[i] = br.readLine();
+                i++;
+                do {
+                    System.out.println("Amb quina orientació(N,S,E,O)?");
+
+                    posicions[i] = br.readLine();
+
+                } while (!(posicions[i].equals("N") || posicions[i].equals("S") || posicions[i].equals("E") || posicions[i].equals("O")));
+                i++;
+            }
+
+            System.out.println("\nAssigna els 2 cuirassats de 3.");
+            while (i < 11) {
+                System.out.println("\nEn quina posició el vols situar(A1)?");
+                posicions[i] = br.readLine();
+                i++;
+                do {
+                    System.out.println("Amb quina orientació(N,S,E,O)?");
+
+                    posicions[i] = br.readLine();
+
+                } while (!(posicions[i].equals("N") || posicions[i].equals("S") || posicions[i].equals("E") || posicions[i].equals("O")));
+                i++;
+            }
+
+            System.out.println("\nAssigna el portaavió de 4.");
+            while (i < 13) {
+                System.out.println("\nEn quina posició el vols situar(A1)?");
+                posicions[i] = br.readLine();
+                i++;
+                do {
+                    System.out.println("Amb quina orientació(N,S,E,O)?");
+
+                    posicions[i] = br.readLine();
+
+                } while (!(posicions[i].equals("N") || posicions[i].equals("S") || posicions[i].equals("E") || posicions[i].equals("O")));
+                i++;
+            }
+            Client1.mostrarCamp(visible);
+
+
+            out.writeObject(new Missatge(posicions, visible));
+            out.flush();
+            rebut = in.readUTF();
+            System.out.println("Servidor: " + rebut);
+    }
+
+    public static void rebre() {
+
+    }
+
+    public static boolean verificarFC(int fila, int columna) {
+
+        if (fila >= files -1 || fila < 1 || columna >= columnes - 1 || columna < 1) {
+            //System.out.println("Error. La columna i/o la fila es incorrecte.");
+            return false;
+        }
+        else return true;
     }
 
     public static void inizialitzarMapa() {
@@ -124,7 +150,6 @@ public class Client1 {
         inizialitzarCamp(visible, '.');
 
         mostrarCamp(visible);
-
     }
 
     static void inizialitzarCamp(char[][] camp, char c) {
