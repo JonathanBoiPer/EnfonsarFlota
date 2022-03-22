@@ -1,16 +1,13 @@
 package practica_uf4.model.vaixells;
 
-public class Portaavions {
+public class Submarins {
 
     private int vides;
     private String posicio,orientacio;
 
-    public Portaavions (){
-        vides = 4;
-
-
+    public Submarins(){
+        vides = 1;
     }
-
 
     /**
      *
@@ -24,5 +21,4 @@ public class Portaavions {
             return false;
         }
     }
-
 }
