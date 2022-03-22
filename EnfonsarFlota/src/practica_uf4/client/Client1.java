@@ -124,8 +124,9 @@ public class Client1 {
 
 
             Missatge taulell = new Missatge(visible);
-            out.writeObject(taulell);
             taulell.setArray(posicions);
+            out.writeObject(taulell);
+
 
             out.flush();
             rebut = in.readUTF();
