@@ -5,13 +5,12 @@ public abstract class vaixell {
     int vides;
     String posicio,orientacio;
 
-    public abstract void colocarVaixell();
+    public abstract void colocarVaixell(String posicio, String orientacio);
 
     /**
      *
      * @return boolean, True si el vaixell s'enfonsa, False si només l'han tocat
      */
-
     public boolean enfonsat (){
         vides--;
         return vides == 0;

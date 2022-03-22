@@ -7,7 +7,7 @@ public class Portaavions extends vaixell {
 
 
     @Override
-    public void colocarVaixell() {
+    public void colocarVaixell(String posicio, String orientacio) {
 
     }
 
