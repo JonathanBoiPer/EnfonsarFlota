@@ -5,7 +5,7 @@ public abstract class vaixell {
     int vides;
     String posicio,orientacio;
 
-    public abstract void colocarVaixell(String posicio, String orientacio);
+    public abstract void colocarVaixell(String posicio, String orientacio, char num);
 
     /**
      *
