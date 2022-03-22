@@ -9,7 +9,7 @@ public class Missatge implements Serializable {
     char[][] taulerUsuari = new char[10][10];
 
     public Missatge(String[] _array, char[][] visible) {
-        for (int i = 0; i < _array.length - 1; i++) {
+        for (int i = 0; i < _array.length; i++) {
             array[i] = _array[i];
         }
         for (int i = 1; i < 9; i++) {

@@ -84,10 +84,10 @@ public class Servidor {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String rebre="", enviar="";
-
+/*
         while (finalitzat) {
             try {
-                out.writeObject(new Missatge(taulerUsuari1));
+                out.writeObject(new Missatge(,taulerUsuari1));
                 out.flush();
 
             } catch (ClassNotFoundException e) {
@@ -96,6 +96,7 @@ public class Servidor {
         }
         in.close();
         socket.close();
+ */
     }
 
     /**
