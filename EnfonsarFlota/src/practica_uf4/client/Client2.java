@@ -1,4 +1,4 @@
-package sockets.client;
+package practica_uf4.client;
 
 import java.io.*;
 import java.net.*;

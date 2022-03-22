@@ -1,4 +1,4 @@
-package sockets.model;
+package practica_uf4.model;
 
 import java.io.Serializable;
 
