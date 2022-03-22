@@ -24,7 +24,9 @@ public class Missatge implements Serializable {
     }
 
     public void setArray(String[] array) {
-        this.array = array;
+        for (int i = 0; i < array.length; i++) {
+            this.array[i] = array[i];
+        }
     }
 
     public char[][] getTaulerUsuari() {
