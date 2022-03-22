@@ -10,11 +10,11 @@ public class Destructors extends vaixell{
 
 
     @Override
-    public void colocarVaixell(String posicio, String orientacio, char num) {
+    public void colocarVaixell(String posicio, String orientacio, char num, int jugador) {
         char direccio;
         int fila,columna,x = 0, y = 0;
-        fila = (posicio.charAt(0) - 64);
-        columna = (posicio.charAt(1)-47);
+        fila  = (posicio.charAt(0) - 65);
+        columna = (posicio.charAt(1)-49);
         direccio = orientacio.charAt(0);
 
         if (direccio == 'N'){
@@ -27,9 +27,13 @@ public class Destructors extends vaixell{
             x = -1;
         }
 
-        Joc.mapaOcultJug1[fila][columna] = num;
-        Joc.mapaOcultJug1[fila+x][columna+y] = num;
-
+        if(jugador == 1) {
+            Joc.mapaVisibleJug1[fila][columna] = num;
+            Joc.mapaVisibleJug1[fila + y][columna + x] = num;
+        }else{
+            Joc.mapaVisibleJug2[fila][columna] = num;
+            Joc.mapaVisibleJug2[fila + y][columna + x] = num;
+        }
     }
 
 }

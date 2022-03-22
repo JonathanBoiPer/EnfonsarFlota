@@ -8,24 +8,31 @@ public class Flota {
     String[] posicions = new String[16];
 
 
-    public Flota(){
+    public Flota(String[] posicions, int jugador){
+        if (jugador == 1) {
+            Joc.inicialitzarMapaVisible(Joc.mapaVisibleJug1);
+        }else{
+            Joc.inicialitzarMapaVisible(Joc.mapaVisibleJug2);
+        }
+
+        this.posicions = posicions;
         inicialitzarVaixells();
         inicialitzarEstatVaixells();
-        setVaixells();
+        setVaixells(jugador);
     }
 
 
-    public void setPosiccions(String[] posiccions) { this.posicions = posiccions; }
-
-    public void setVaixells(){
-        int posicio=0, orientacio=1;
+    public void setVaixells(int jugador){
+        int posicio=3, orientacio=4;
 
         for (int x = 0; x < vaixells.length ; x++) {
-
-            vaixells[x].colocarVaixell(posicions[posicio],posicions[orientacio],(char)(x+49));
-            posicio += 2;
-            orientacio += 2;
-
+            if (x >= 3) {
+                vaixells[x].colocarVaixell(posicions[posicio], posicions[orientacio], (char) (x + 49), jugador);
+                posicio += 2;
+                orientacio += 2;
+            }else{
+                vaixells[x].colocarVaixell(posicions[x], null, (char) (x + 49),jugador);
+            }
         }
     }
 

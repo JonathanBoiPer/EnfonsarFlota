@@ -1,7 +1,8 @@
 package practica_uf4.server;
 
+import practica_uf4.model.Flota;
 import practica_uf4.model.Missatge;
-
+import practica_uf4.model.Joc;
 import java.io.*;
 import java.net.*;
 
@@ -48,11 +49,18 @@ public class Servidor {
             try {
                 Missatge inici = (Missatge) in.readObject(); //Aquí arriba l'array amb les posicions i les orientacions
                 String[] posicions = inici.getArray();
+                Flota jug1 = new Flota(posicions,1);
+                Joc.imprimirMapa(1);
+
+
+
+
                 for (int i = 1; i < 9; i++) {
                     for (int j = 1; j < 9; j++) {
                         taulerUsuari1[i][j] = inici.getTaulerUsuari()[i][j];
                     }
                 }
+
                 for (int i = 1; i < 9; i++) {
                     for (int j = 1; j < 9; j++) {
                         taulerUsuari2[i][j] = inici.getTaulerUsuari()[i][j];

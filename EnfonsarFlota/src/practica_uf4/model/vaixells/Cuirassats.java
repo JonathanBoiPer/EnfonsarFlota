@@ -11,11 +11,11 @@ public class Cuirassats extends vaixell{
 
 
     @Override
-    public void colocarVaixell(String posicio, String orientacio, char num) {
+    public void colocarVaixell(String posicio, String orientacio, char num, int jugador) {
         char direccio;
         int fila,columna,x = 0, y = 0, n = 0, m = 0;
-        fila = (posicio.charAt(0) - 64);
-        columna = (posicio.charAt(1)-47);
+        fila  = (posicio.charAt(0) - 65);
+        columna = (posicio.charAt(1)-49);
         direccio = orientacio.charAt(0);
 
         if (direccio == 'N'){
@@ -29,9 +29,13 @@ public class Cuirassats extends vaixell{
         }
 
         for(int q = 0; q < 3; q++){
-            Joc.mapaOcultJug1[fila+x][columna+y] = num;
-            x += n;
-            y += m;
+            if (jugador == 1) {
+                Joc.mapaVisibleJug1[fila + y][columna + x] = num;
+            }else {
+                Joc.mapaVisibleJug2[fila + y][columna + x] = num;
+            }
+                x += n;
+                y += m;
         }
 
     }
