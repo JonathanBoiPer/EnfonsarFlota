@@ -49,57 +49,59 @@ public class Client1 {
         ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 
         BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-        String str="", str2="";
 
-        while(finalitzat){
+        String str="", str2="", posicio="", orientacio="";
+
+        while(!finalitzat){
 
             int i = 0;
 
-            System.out.print("Benvingut al joc Enfonsar la Flota");
-            System.out.print("En aquesta edició hi hauran 4 tipus de vaixell:");
-            System.out.print("3 - Submarins de 1 casella");
-            System.out.print("2 - Destructors de 2 caselles");
-            System.out.print("2 - Cuirassats de 3 caselles");
-            System.out.print("1 - Portaavions de 4 caselles");
-            System.out.print("Aquest serà el taulell:");
+            System.out.println("\nBenvingut al joc Enfonsar la Flota\n");
+            System.out.println("En aquesta edició hi hauran 4 tipus de vaixell:");
+            System.out.println("3 - Submarins de 1 casella");
+            System.out.println("2 - Destructors de 2 caselles");
+            System.out.println("2 - Cuirassats de 3 caselles");
+            System.out.println("1 - Portaavions de 4 caselles\n");
+            System.out.println("Aquest serà el taulell:\n");
             Client1.inizialitzarMapa();
 
             while(i <= 8) {
                 i++;
-                System.out.print("Quin vaixell vols posar?");
-                System.out.print("Submarí = 'S'");
-                System.out.print("Destructor = 'D'");
-                System.out.print("Cuirassats = 'C'");
-                System.out.print("Portaavions = 'P'");
+                System.out.println("\nQuin vaixell vols posar?");
+                System.out.println("Submarí = 'S'");
+                System.out.println("Destructor = 'D'");
+                System.out.println("Cuirassats = 'C'");
+                System.out.println("Portaavions = 'P'");
                 str = br.readLine();
 
                 switch (str){
                     case "S":
-                        System.out.println("En quina posició el vols situar");
-
-                        System.out.println("Amb quina orientació?");
-
+                        System.out.println("\nEn quina posició el vols situar?");
+                        posicio = br.readLine();
+                        System.out.println("\nAmb quina orientació?");
+                        orientacio = br.readLine();
+                        
                         break;
                     case "D":
-                        System.out.println("En quina posició el vols situar");
-
-                        System.out.println("Amb quina orientació?");
-
+                        System.out.println("\nEn quina posició el vols situar?");
+                        posicio = br.readLine();
+                        System.out.println("\nAmb quina orientació?");
+                        orientacio = br.readLine();
                         break;
                     case "C":
-                        System.out.println("En quina posició el vols situar");
-
-                        System.out.println("Amb quina orientació?");
-
+                        System.out.println("\nEn quina posició el vols situar?");
+                        posicio = br.readLine();
+                        System.out.println("\nAmb quina orientació?");
+                        orientacio = br.readLine();
                         break;
                     case "P":
-                        System.out.println("En quina posició el vols situar");
-
-                        System.out.println("Amb quina orientació?");
-
+                        System.out.println("\nEn quina posició el vols situar?");
+                        posicio = br.readLine();
+                        System.out.println("\nAmb quina orientació?");
+                        orientacio = br.readLine();
                         break;
                     default:
-                        System.out.println("ERROR!. No es reconeix el tipus de vaixell.");
+                        System.out.println("\nERROR!. No es reconeix el tipus de vaixell.");
                 }
 
                 out.writeUTF(str);
