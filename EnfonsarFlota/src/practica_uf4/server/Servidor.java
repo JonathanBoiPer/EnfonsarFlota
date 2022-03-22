@@ -25,7 +25,7 @@ public class Servidor {
 
         Socket socket = server.accept();
         //Socket socket2 = server.accept();
-        System.out.println("Connexió Establerta. Per finalitzar xat escriu close");
+        System.out.println("Connexió Establerta.");
 
         rebudaVaixells(socket);
         //enviar(socket);
@@ -84,19 +84,15 @@ public class Servidor {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String rebre="", enviar="";
-/*
-        while (finalitzat) {
-            try {
-                out.writeObject(new Missatge(,taulerUsuari1));
-                out.flush();
 
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+        while (finalitzat) {
+            out.writeObject(new Missatge(taulerUsuari1));
+            out.flush();
+
         }
         in.close();
         socket.close();
- */
+
     }
 
     /**

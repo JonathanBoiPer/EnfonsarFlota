@@ -8,10 +8,7 @@ public class Missatge implements Serializable {
     String[] array = new String[13];
     char[][] taulerUsuari = new char[10][10];
 
-    public Missatge(String[] _array, char[][] visible) {
-        for (int i = 0; i < _array.length; i++) {
-            array[i] = _array[i];
-        }
+    public Missatge(char[][] visible) {
         for (int i = 1; i < 9; i++) {
             for (int j = 1; j < 9; j++) {
                 taulerUsuari[i][j] = visible[i][j];

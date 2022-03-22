@@ -69,19 +69,20 @@ public class Client1 {
             String[] posicions = new String[13];
 
             int i = 0;
+            int c = 0;
 
             System.out.println("\nAssigna els 3 submarins de 1.");
             while(i < 3) {
-                System.out.println("\nEn quina posició el vols situar el submarí numero " + i+1 + " (Exemple: A1)");
+                System.out.println("\nEn quina posició el vols situar el submarí numero " + (c+1) + " (Exemple: A1)");
                 posicions[i] = br.readLine();
-                i++;
+                i++; c++;
             }
 
+            c = 0;
             System.out.println("\nAssigna els 2 destructors de 2.");
             while (i < 7) {
-                System.out.println("\nEn quina posició el vols situar(A1)?");
-                posicions[i] = br.readLine();
-                i++;
+                System.out.println("\nEn quina posició el vols situar el destructor numero " + (c+1) + " (Exemple: A1)");                posicions[i] = br.readLine();
+                i++;c++;
                 do {
                     System.out.println("Amb quina orientació(N,S,E,O)?");
 
@@ -91,11 +92,12 @@ public class Client1 {
                 i++;
             }
 
+            c = 0;
             System.out.println("\nAssigna els 2 cuirassats de 3.");
             while (i < 11) {
-                System.out.println("\nEn quina posició el vols situar(A1)?");
+                System.out.println("\nEn quina posició el vols situar el cuirassat numero " + (c+1) + " (Exemple: A1)");
                 posicions[i] = br.readLine();
-                i++;
+                i++;c++;
                 do {
                     System.out.println("Amb quina orientació(N,S,E,O)?");
 
@@ -107,7 +109,7 @@ public class Client1 {
 
             System.out.println("\nAssigna el portaavió de 4.");
             while (i < 13) {
-                System.out.println("\nEn quina posició el vols situar(A1)?");
+                System.out.println("\nEn quina posició el vols situar el portaavions (Exemple: A1)");
                 posicions[i] = br.readLine();
                 i++;
                 do {
@@ -121,10 +123,13 @@ public class Client1 {
             Client1.mostrarCamp(visible);
 
 
-            out.writeObject(new Missatge(posicions, visible));
+            Missatge taulell = new Missatge(visible);
+            out.writeObject(taulell);
+            taulell.setArray(posicions);
+
             out.flush();
             rebut = in.readUTF();
-            System.out.println("Servidor: " + rebut);
+            System.out.println("\nServidor: " + rebut);
     }
 
     public static void rebre() {
