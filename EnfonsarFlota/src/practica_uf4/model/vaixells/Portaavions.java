@@ -2,9 +2,10 @@ package practica_uf4.model.vaixells;
 
 import practica_uf4.model.Joc;
 
-import java.sql.SQLOutput;
-
-public class Portaavions extends vaixell {
+/**
+ * Classe portaavions, vaixells de 4 vides. N'hi ha 1.
+ */
+public class Portaavions extends Vaixell {
 
 
     public Portaavions (){ this.vides = 4; }

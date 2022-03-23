@@ -1,6 +1,6 @@
 package practica_uf4.model.vaixells;
 
-public abstract class vaixell {
+public abstract class Vaixell {
 
     int vides;
     String posicio,orientacio;

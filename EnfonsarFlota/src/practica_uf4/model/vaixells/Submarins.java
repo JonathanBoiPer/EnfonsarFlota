@@ -2,7 +2,10 @@ package practica_uf4.model.vaixells;
 
 import practica_uf4.model.Joc;
 
-public class Submarins extends vaixell{
+/**
+ * Classe submarins, d'una casella. N'hi ha 3.
+ */
+public class Submarins extends Vaixell {
 
     public Submarins(){
         vides = 1;
@@ -18,7 +21,7 @@ public class Submarins extends vaixell{
         if (jugador == 1) {
             Joc.mapaVisibleJug1[fila][columna] = num;
         }else{
-            Joc.mapaVisibleJug1[fila][columna] = num;
+            Joc.mapaVisibleJug2[fila][columna] = num;
         }
 
     }

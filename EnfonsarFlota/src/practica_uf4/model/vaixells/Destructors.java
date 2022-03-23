@@ -2,7 +2,10 @@ package practica_uf4.model.vaixells;
 
 import practica_uf4.model.Joc;
 
-public class Destructors extends vaixell{
+/**
+ * Classe Destructors, vaixells de dos vides. N'hi ha 2.
+ */
+public class Destructors extends Vaixell {
 
     public Destructors(){
         vides = 2;
