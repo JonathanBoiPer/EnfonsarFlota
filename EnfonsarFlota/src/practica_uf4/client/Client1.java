@@ -7,6 +7,7 @@ import java.net.*;
 import java.util.Scanner;
 
 public class Client1 {
+    static Scanner scan = new Scanner(System.in);
 
     static int files;
     static int columnes;
@@ -59,6 +60,10 @@ public class Client1 {
         }
 
         public static void assignarVaixells(Socket socket) throws IOException{
+            char userfila = ' ';
+            String filacol = "", usercolumna = "";
+            int columna = 0, fila = 0;
+            boolean valid;
 
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
@@ -73,15 +78,56 @@ public class Client1 {
 
             System.out.println("\nAssigna els 3 submarins de 1.");
             while(i < 3) {
-                System.out.println("\nEn quina posició el vols situar el submarí numero " + (c+1) + " (Exemple: A1)");
-                posicions[i] = br.readLine();
+                do {
+                    valid = true;
+                    System.out.println("\nEn quina posició el vols situar el submarí numero " + (c + 1) + " (Exemple: A1)");
+                    try {
+                        filacol = scan.nextLine();
+                        userfila = filacol.charAt(0);
+                        fila = userfila - 'A' + 1;
+                        usercolumna = filacol.substring(1);
+                        columna = Integer.parseInt(usercolumna);
+                        for (int j = 0; j < posicions.length; j++) {
+                            if (filacol.equals(posicions[j])) {
+                                System.out.println("ERROR. Aquesta casella ja ha sigut utilitzada.");
+                                valid = false;
+                                break;
+                            }
+                        }
+                    } catch (Exception e){
+                        System.out.println("ERROR. No has introduït correctament les dades.");
+                        valid = false;
+                    }
+                } while (!verificarFC(fila, columna) || !valid);
+                posicions[i] = filacol;
                 i++; c++;
             }
 
             c = 0;
             System.out.println("\nAssigna els 2 destructors de 2.");
             while (i < 7) {
-                System.out.println("\nEn quina posició el vols situar el destructor numero " + (c+1) + " (Exemple: A1)");                posicions[i] = br.readLine();
+                do {
+                    valid = true;
+                    System.out.println("\nEn quina posició el vols situar el destructor numero " + (c + 1) + " (Exemple: A1)");
+                    try {
+                        filacol = scan.nextLine();
+                        userfila = filacol.charAt(0);
+                        fila = userfila - 'A' + 1;
+                        usercolumna = filacol.substring(1);
+                        columna = Integer.parseInt(usercolumna);
+                        for (int j = 0; j < posicions.length; j++) {
+                            if (filacol.equals(posicions[j])) {
+                                System.out.println("ERROR. Aquesta casella ja ha sigut utilitzada.");
+                                valid = false;
+                                break;
+                            }
+                        }
+                    } catch (Exception e){
+                        System.out.println("ERROR. No has introduït correctament les dades.");
+                        valid = false;
+                    }
+                } while (!verificarFC(fila, columna) || !valid);
+                posicions[i] = filacol;
                 i++;c++;
                 do {
                     System.out.println("Amb quina orientació(N,S,E,O)?");
@@ -95,8 +141,28 @@ public class Client1 {
             c = 0;
             System.out.println("\nAssigna els 2 cuirassats de 3.");
             while (i < 11) {
-                System.out.println("\nEn quina posició el vols situar el cuirassat numero " + (c+1) + " (Exemple: A1)");
-                posicions[i] = br.readLine();
+                do {
+                    valid = true;
+                    System.out.println("\nEn quina posició el vols situar el cuirassat numero " + (c + 1) + " (Exemple: A1)");
+                    try {
+                        filacol = scan.nextLine();
+                        userfila = filacol.charAt(0);
+                        fila = userfila - 'A' + 1;
+                        usercolumna = filacol.substring(1);
+                        columna = Integer.parseInt(usercolumna);
+                        for (int j = 0; j < posicions.length; j++) {
+                            if (filacol.equals(posicions[j])) {
+                                System.out.println("ERROR. Aquesta casella ja ha sigut utilitzada.");
+                                valid = false;
+                                break;
+                            }
+                        }
+                    } catch (Exception e){
+                        System.out.println("ERROR. No has introduït correctament les dades.");
+                        valid = false;
+                    }
+                } while (!verificarFC(fila, columna) || !valid);
+                posicions[i] = filacol;
                 i++;c++;
                 do {
                     System.out.println("Amb quina orientació(N,S,E,O)?");
@@ -109,8 +175,28 @@ public class Client1 {
 
             System.out.println("\nAssigna el portaavió de 4.");
             while (i < 13) {
-                System.out.println("\nEn quina posició el vols situar el portaavions (Exemple: A1)");
-                posicions[i] = br.readLine();
+                do {
+                    valid = true;
+                    System.out.println("\nEn quina posició el vols situar el portaavió (Exemple: A1)");
+                    try {
+                        filacol = scan.nextLine();
+                        userfila = filacol.charAt(0);
+                        fila = userfila - 'A' + 1;
+                        usercolumna = filacol.substring(1);
+                        columna = Integer.parseInt(usercolumna);
+                        for (int j = 0; j < posicions.length; j++) {
+                            if (filacol.equals(posicions[j])) {
+                                System.out.println("ERROR. Aquesta casella ja ha sigut utilitzada.");
+                                valid = false;
+                                break;
+                            }
+                        }
+                    } catch (Exception e){
+                        System.out.println("ERROR. No has introduït correctament les dades.");
+                        valid = false;
+                    }
+                } while (!verificarFC(fila, columna) || !valid);
+                posicions[i] = filacol;
                 i++;
                 do {
                     System.out.println("Amb quina orientació(N,S,E,O)?");
@@ -140,7 +226,7 @@ public class Client1 {
     public static boolean verificarFC(int fila, int columna) {
 
         if (fila >= files -1 || fila < 1 || columna >= columnes - 1 || columna < 1) {
-            //System.out.println("Error. La columna i/o la fila es incorrecte.");
+            System.out.println("Error. La columna i/o la fila es incorrecte.");
             return false;
         }
         else return true;
