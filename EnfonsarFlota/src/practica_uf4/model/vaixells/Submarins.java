@@ -18,7 +18,7 @@ public class Submarins extends vaixell{
         if (jugador == 1) {
             Joc.mapaVisibleJug1[fila][columna] = num;
         }else{
-            Joc.mapaVisibleJug1[fila][columna] = num;
+            Joc.mapaVisibleJug2[fila][columna] = num;
         }
 
     }
