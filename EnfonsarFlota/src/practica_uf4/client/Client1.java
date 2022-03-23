@@ -31,6 +31,8 @@ public class Client1 {
         in = new ObjectInputStream(new BufferedInputStream(connexio.getInputStream()));
         System.out.println("Canals de comunicació creats.");
 
+        sleep(2);
+
         menu();
         assignarVaixells();
         connexio.close();
@@ -57,13 +59,16 @@ public class Client1 {
     public static void menu() {
 
             System.out.println("\nBenvingut al joc Enfonsar la Flota\n");
+            sleep(2);
             System.out.println("En aquesta edició hi hauran 4 tipus de vaixell:");
             System.out.println("3 - Submarins de 1 casella");
             System.out.println("2 - Destructors de 2 caselles");
             System.out.println("2 - Cuirassats de 3 caselles");
             System.out.println("1 - Portaavions de 4 caselles\n");
+            sleep(2);
             System.out.println("Aquest serà el taulell:\n");
             Client1.inizialitzarMapa();
+            sleep(2);
         }
 
         public static void assignarVaixells() throws IOException{
@@ -81,6 +86,8 @@ public class Client1 {
 
             int i = 0;
             int c = 0;
+
+            sleep(1);
 
             System.out.println("\nAssigna els 3 submarins de 1.");
             while(i < 3) {
@@ -108,6 +115,8 @@ public class Client1 {
                 posicions[i] = filacol;
                 i++; c++;
             }
+
+            sleep(1);
 
             c = 0;
             System.out.println("\nAssigna els 2 destructors de 2.");
@@ -144,6 +153,8 @@ public class Client1 {
                 i++;
             }
 
+            sleep(1);
+
             c = 0;
             System.out.println("\nAssigna els 2 cuirassats de 3.");
             while (i < 11) {
@@ -178,6 +189,8 @@ public class Client1 {
                 } while (!(posicions[i].equals("N") || posicions[i].equals("S") || posicions[i].equals("E") || posicions[i].equals("O")));
                 i++;
             }
+
+            sleep(1);
 
             System.out.println("\nAssigna el portaavió de 4.");
             while (i < 13) {
@@ -284,6 +297,16 @@ public class Client1 {
                 System.out.print("  " + camp[i][j]);
             }
             System.out.println();
+        }
+    }
+
+    public static void sleep(int segons) {
+        try {
+            for (int i = 0; i < segons; i++) {
+                Thread.sleep(1000);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 }
