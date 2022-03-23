@@ -10,13 +10,16 @@ public class Submarins extends vaixell{
 
 
     @Override
-    public void colocarVaixell(String posicio, String orientacio, char num) {
-        char direccio;
+    public void colocarVaixell(String posicio, String orientacio, char num, int jugador) {
         int fila,columna;
-        fila = (posicio.charAt(0) - 64);
-        columna = (posicio.charAt(1)-47);
+        fila  = (posicio.charAt(0) - 65);
+        columna = (posicio.charAt(1)-49);
 
-        Joc.mapaOcultJug1[fila][columna] = num;
+        if (jugador == 1) {
+            Joc.mapaVisibleJug1[fila][columna] = num;
+        }else{
+            Joc.mapaVisibleJug1[fila][columna] = num;
+        }
 
     }
 
