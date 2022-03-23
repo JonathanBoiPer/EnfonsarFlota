@@ -14,6 +14,8 @@ public class Client1 {
     static boolean finalitzat;
     static char [][] ocult;
     static char [][] visible;
+    static ObjectOutputStream out;
+    static ObjectInputStream in;
 
     public static void main(String[] args) throws IOException {
 
@@ -21,11 +23,16 @@ public class Client1 {
         int port = obtenirPort(ip);
         ip = separarPort(ip);
 
+
         Socket connexio = new Socket(ip, port);
         System.out.println("Connexió establerta.");
 
+        out = new ObjectOutputStream(connexio.getOutputStream());
+        in = new ObjectInputStream(new BufferedInputStream(connexio.getInputStream()));
+        System.out.println("Canals de comunicació creats.");
+
         menu();
-        assignarVaixells(connexio);
+        assignarVaixells();
         connexio.close();
     }
     public static String obtenirConnexio(){
@@ -59,14 +66,13 @@ public class Client1 {
             Client1.inizialitzarMapa();
         }
 
-        public static void assignarVaixells(Socket socket) throws IOException{
+        public static void assignarVaixells() throws IOException{
             char userfila = ' ';
             String filacol = "", usercolumna = "";
             int columna = 0, fila = 0;
             boolean valid;
 
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-            ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+
 
             BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 
@@ -219,8 +225,17 @@ public class Client1 {
             System.out.println("\nServidor: " + rebut);
     }
 
-    public static void rebre() {
+    public static void rebre() throws IOException, ClassNotFoundException {
+        while (true) {
+            // Demanar i enviar missatge
+            System.out.print("\nEscriu la casella que vols bombardejar: ");
+            String missatge = scan.nextLine();
+            out.writeObject(missatge);
 
+            // Esperar i mostrar resposta
+            Object obj = in.readObject();
+            System.out.println("Resposta del servidor: " + obj);
+        }
     }
 
     public static boolean verificarFC(int fila, int columna) {
