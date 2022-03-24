@@ -25,7 +25,7 @@ public class Client1 {
     static String filacol = "", usercolumna = "", orientacio = "", filacolTemp = "", userColTemp = "";
     static int columna = 0, fila = 0, colTemp = 0;
     static boolean valid;
-    static String[] caselles = new String[16];
+    static String[] caselles = new String[20];
 
     /**
      * Inicialitzar les diferents funcions del jugador
@@ -95,6 +95,7 @@ public class Client1 {
 
             int i = 0;
             int c = 0;
+            int k = i;
 
             sleep(1);
 
@@ -139,7 +140,6 @@ public class Client1 {
                 userColTemp = usercolumna;
                 colTemp = columna;
                 do {
-                    int k = i;
                     orientacio(k, i);
                 } while (!verificarFC(fila, columna) || !valid);
                 caselles[i] = filacol;
@@ -169,7 +169,7 @@ public class Client1 {
                 userColTemp = usercolumna;
                 colTemp = columna;
                 do {
-                    for (int k = i; k < i + 2; k++) {
+                    for (k = i + 2; k < i + 4; k++) {
                         orientacio(k, i);
                         caselles[k] = filacol;
                         posicions[i] = orientacio;
@@ -196,14 +196,14 @@ public class Client1 {
                     }
                 } while (!verificarFC(fila, columna) || !valid);
                 posicions[i] = filacol;
-                caselles[i] = filacol;
+                caselles[k] = filacol;
                 i++;
                 filacolTemp = filacol;
                 userFilaTemp = userfila;
                 userColTemp = usercolumna;
                 colTemp = columna;
                 do {
-                    for (int k = i; k < i + 3; k++) {
+                    for (k = i + 2; k < i + 5; k++) {
                         orientacio(k, i);
                         caselles[k] = filacol;
                         posicions[i] = orientacio;
@@ -244,7 +244,7 @@ public class Client1 {
     }
 
     public static void orientacio(int k, int i) throws IOException {
-        if (k < i + 1) {
+        if (k <= i + 2) {
             filacol = filacolTemp;
             userfila = userFilaTemp;
             usercolumna = userColTemp;
