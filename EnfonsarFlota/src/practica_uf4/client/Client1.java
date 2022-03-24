@@ -19,7 +19,13 @@ public class Client1 {
     static char [][] visible;
     static ObjectOutputStream out;
     static ObjectInputStream in;
-    //192.168.1.60:5000
+    static BufferedReader br;
+
+    static char userfila = ' ', userFilaTemp = ' ';
+    static String filacol = "", usercolumna = "", orientacio = "", filacolTemp = "", userColTemp = "";
+    static int columna = 0, fila = 0, colTemp = 0;
+    static boolean valid;
+    static String[] caselles = new String[16];
 
     /**
      * Inicialitzar les diferents funcions del jugador
@@ -38,6 +44,7 @@ public class Client1 {
 
         out = new ObjectOutputStream(connexio.getOutputStream());
         in = new ObjectInputStream(new BufferedInputStream(connexio.getInputStream()));
+        br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Canals de comunicació creats.");
 
         sleep(2);
@@ -81,18 +88,10 @@ public class Client1 {
         }
 
         public static void assignarVaixells() throws IOException{
-            char userfila = ' ', userFilaTemp = ' ';
-            String filacol = "", usercolumna = "", orientacio = "", filacolTemp = "", userColTemp = "";
-            int columna = 0, fila = 0, colTemp = 0;
-            boolean valid;
-
-
-
-            BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 
             String rebut = "";
             String[] posicions = new String[13];
-            String[] caselles = new String[16];
+
 
             int i = 0;
             int c = 0;
@@ -106,17 +105,7 @@ public class Client1 {
                     System.out.println("\nEn quina posició el vols situar el submarí numero " + (c + 1) + " (Exemple: A1)");
                     try {
                         filacol = scan.nextLine();
-                        userfila = filacol.charAt(0);
-                        fila = userfila - 'A' + 1;
-                        usercolumna = filacol.substring(1);
-                        columna = Integer.parseInt(usercolumna);
-                        for (int j = 0; j < caselles.length; j++) {
-                            if (filacol.equals(caselles[j])) {
-                                System.out.println("ERROR. Aquesta casella ja ha sigut utilitzada.");
-                                valid = false;
-                                break;
-                            }
-                        }
+                        comprovarLiniesColum();
                     } catch (Exception e){
                         System.out.println("ERROR. No has introduït correctament les dades.");
                         valid = false;
@@ -136,17 +125,7 @@ public class Client1 {
                     System.out.println("\nEn quina posició el vols situar el destructor numero " + (c + 1) + " (Exemple: A1)");
                     try {
                         filacol = scan.nextLine();
-                        userfila = filacol.charAt(0);
-                        fila = userfila - 'A' + 1;
-                        usercolumna = filacol.substring(1);
-                        columna = Integer.parseInt(usercolumna);
-                        for (int j = 0; j < caselles.length; j++) {
-                            if (filacol.equals(caselles[j])) {
-                                System.out.println("ERROR. Aquesta casella ja ha sigut utilitzada.");
-                                valid = false;
-                                break;
-                            }
-                        }
+                        comprovarLiniesColum();
                     } catch (Exception e){
                         System.out.println("ERROR. No has introduït correctament les dades.");
                         valid = false;
@@ -160,82 +139,9 @@ public class Client1 {
                 userColTemp = usercolumna;
                 colTemp = columna;
                 do {
-                    filacol = filacolTemp;
-                    userfila = userFilaTemp;
-                    usercolumna = userColTemp;
-                    columna = colTemp;
-
-                    valid = true;
-                    do {
-                        System.out.println("Amb quina orientació(N,S,E,O)?");
-
-                        orientacio = br.readLine();
-
-                    } while (!(orientacio.equals("N") || orientacio.equals("S") || orientacio.equals("E") || orientacio.equals("O")));
-                    switch (orientacio) {
-                        case "N":
-                            userfila--;
-                            filacol = userfila + usercolumna;
-                            userfila = filacol.charAt(0);
-                            fila = userfila - 'A' + 1;
-                            usercolumna = filacol.substring(1);
-                            columna = Integer.parseInt(usercolumna);
-                            for (int j = 0; j < caselles.length; j++) {
-                                if (filacol.equals(caselles[j])) {
-                                    System.out.println("ERROR. La casella en direcció a la orientació que has escollit, ja ha sigut utilitzada.");
-                                    valid = false;
-                                    break;
-                                }
-                            }
-                            break;
-                        case "S":
-                            userfila++;
-                            filacol = userfila + usercolumna;
-                            userfila = filacol.charAt(0);
-                            fila = userfila - 'A' + 1;
-                            usercolumna = filacol.substring(1);
-                            columna = Integer.parseInt(usercolumna);
-                            for (int j = 0; j < caselles.length; j++) {
-                                if (filacol.equals(caselles[j])) {
-                                    System.out.println("ERROR. La casella en direcció a la orientació que has escollit, ja ha sigut utilitzada.");
-                                    valid = false;
-                                    break;
-                                }
-                            }
-                            break;
-                        case "E":
-                            columna++;
-                            filacol = userfila + String.valueOf(columna);
-                            userfila = filacol.charAt(0);
-                            fila = userfila - 'A' + 1;
-                            usercolumna = filacol.substring(1);
-                            columna = Integer.parseInt(usercolumna);
-                            for (int j = 0; j < caselles.length; j++) {
-                                if (filacol.equals(caselles[j])) {
-                                    System.out.println("ERROR. La casella en direcció a la orientació que has escollit, ja ha sigut utilitzada.");
-                                    valid = false;
-                                    break;
-                                }
-                            }
-                            break;
-                        case "O":
-                            columna--;
-                            filacol = userfila + String.valueOf(columna);
-                            userfila = filacol.charAt(0);
-                            fila = userfila - 'A' + 1;
-                            usercolumna = filacol.substring(1);
-                            columna = Integer.parseInt(usercolumna);
-                            for (int j = 0; j < caselles.length; j++) {
-                                if (filacol.equals(caselles[j])) {
-                                    System.out.println("ERROR. La casella en direcció a la orientació que has escollit, ja ha sigut utilitzada.");
-                                    valid = false;
-                                    break;
-                                }
-                            }
-                            break;
-                    }
-
-                }while (!verificarFC(fila, columna) || !valid);
+                    int k = i;
+                    orientacio(k, i);
+                } while (!verificarFC(fila, columna) || !valid);
                 caselles[i] = filacol;
                 posicions[i] = orientacio;
                 i++;
@@ -249,17 +155,7 @@ public class Client1 {
                     System.out.println("\nEn quina posició el vols situar el cuirassat numero " + (c + 1) + " (Exemple: A1)");
                     try {
                         filacol = scan.nextLine();
-                        userfila = filacol.charAt(0);
-                        fila = userfila - 'A' + 1;
-                        usercolumna = filacol.substring(1);
-                        columna = Integer.parseInt(usercolumna);
-                        for (int j = 0; j < caselles.length; j++) {
-                            if (filacol.equals(caselles[j])) {
-                                System.out.println("ERROR. Aquesta casella ja ha sigut utilitzada.");
-                                valid = false;
-                                break;
-                            }
-                        }
+                        comprovarLiniesColum();
                     } catch (Exception e){
                         System.out.println("ERROR. No has introduït correctament les dades.");
                         valid = false;
@@ -273,90 +169,14 @@ public class Client1 {
                 userColTemp = usercolumna;
                 colTemp = columna;
                 do {
-                for (int k = i; k < i + 2; k++) {
-                    if (k < i + 1) {
-                    filacol = filacolTemp;
-                    userfila = userFilaTemp;
-                    usercolumna = userColTemp;
-                    columna = colTemp;
-
-                    valid = true;
-
-                        do {
-                            System.out.println("Amb quina orientació(N,S,E,O)?");
-
-                            orientacio = br.readLine();
-
-                        } while (!(orientacio.equals("N") || orientacio.equals("S") || orientacio.equals("E") || orientacio.equals("O")));
-                    }
-                    switch (orientacio) {
-                        case "N":
-                            userfila--;
-                            filacol = userfila + usercolumna;
-                            userfila = filacol.charAt(0);
-                            fila = userfila - 'A' + 1;
-                            usercolumna = filacol.substring(1);
-                            columna = Integer.parseInt(usercolumna);
-                            for (int j = 0; j < caselles.length; j++) {
-                                if (filacol.equals(caselles[j])) {
-                                    System.out.println("ERROR. La casella en direcció a la orientació que has escollit, ja ha sigut utilitzada o té algun error.");
-                                    valid = false;
-                                    break;
-                                }
-                            }
-                            break;
-                        case "S":
-                            userfila++;
-                            filacol = userfila + usercolumna;
-                            userfila = filacol.charAt(0);
-                            fila = userfila - 'A' + 1;
-                            usercolumna = filacol.substring(1);
-                            columna = Integer.parseInt(usercolumna);
-                            for (int j = 0; j < caselles.length; j++) {
-                                if (filacol.equals(caselles[j])) {
-                                    System.out.println("ERROR. La casella en direcció a la orientació que has escollit, ja ha sigut utilitzada o té algun error.");
-                                    valid = false;
-                                    break;
-                                }
-                            }
-                            break;
-                        case "E":
-                            columna++;
-                            filacol = userfila + String.valueOf(columna);
-                            userfila = filacol.charAt(0);
-                            fila = userfila - 'A' + 1;
-                            usercolumna = filacol.substring(1);
-                            columna = Integer.parseInt(usercolumna);
-                            for (int j = 0; j < caselles.length; j++) {
-                                if (filacol.equals(caselles[j])) {
-                                    System.out.println("ERROR. La casella en direcció a la orientació que has escollit, ja ha sigut utilitzada o té algun error.");
-                                    valid = false;
-                                    break;
-                                }
-                            }
-                            break;
-                        case "O":
-                            columna--;
-                            filacol = userfila + String.valueOf(columna);
-                            userfila = filacol.charAt(0);
-                            fila = userfila - 'A' + 1;
-                            usercolumna = filacol.substring(1);
-                            columna = Integer.parseInt(usercolumna);
-                            for (int j = 0; j < caselles.length; j++) {
-                                if (filacol.equals(caselles[j])) {
-                                    System.out.println("ERROR. La casella en direcció a la orientació que has escollit, ja ha sigut utilitzada o té algun error.");
-                                    valid = false;
-                                    break;
-                                }
-                            }
+                    for (int k = i; k < i + 2; k++) {
+                        orientacio(k, i);
+                        caselles[k] = filacol;
+                        posicions[i] = orientacio;
+                        if (!verificarFC(fila, columna) || !valid){
+                            valid = false;
                             break;
                         }
-                    caselles[k] = filacol;
-                    posicions[i] = orientacio;
-                    if (!verificarFC(fila, columna) || !valid){
-                        valid = false;
-                        break;
-                    }
                     }
                 } while (!valid);
                 i++;
@@ -369,17 +189,7 @@ public class Client1 {
                     System.out.println("\nEn quina posició el vols situar el portaavió (Exemple: A1)");
                     try {
                         filacol = scan.nextLine();
-                        userfila = filacol.charAt(0);
-                        fila = userfila - 'A' + 1;
-                        usercolumna = filacol.substring(1);
-                        columna = Integer.parseInt(usercolumna);
-                        for (int j = 0; j < caselles.length; j++) {
-                            if (filacol.equals(caselles[j])) {
-                                System.out.println("ERROR. Aquesta casella ja ha sigut utilitzada.");
-                                valid = false;
-                                break;
-                            }
-                        }
+                        comprovarLiniesColum();
                     } catch (Exception e){
                         System.out.println("ERROR. No has introduït correctament les dades.");
                         valid = false;
@@ -394,83 +204,7 @@ public class Client1 {
                 colTemp = columna;
                 do {
                     for (int k = i; k < i + 3; k++) {
-                        if (k < i + 1) {
-                            filacol = filacolTemp;
-                            userfila = userFilaTemp;
-                            usercolumna = userColTemp;
-                            columna = colTemp;
-
-                            valid = true;
-
-                            do {
-                                System.out.println("Amb quina orientació(N,S,E,O)?");
-
-                                orientacio = br.readLine();
-
-                            } while (!(orientacio.equals("N") || orientacio.equals("S") || orientacio.equals("E") || orientacio.equals("O")));
-                        }
-                        switch (orientacio) {
-                            case "N":
-                                userfila--;
-                                filacol = userfila + usercolumna;
-                                userfila = filacol.charAt(0);
-                                fila = userfila - 'A' + 1;
-                                usercolumna = filacol.substring(1);
-                                columna = Integer.parseInt(usercolumna);
-                                for (int j = 0; j < caselles.length; j++) {
-                                    if (filacol.equals(caselles[j])) {
-                                        System.out.println("ERROR. La casella en direcció a la orientació que has escollit, ja ha sigut utilitzada o té algun error.");
-                                        valid = false;
-                                        break;
-                                    }
-                                }
-                                break;
-                            case "S":
-                                userfila++;
-                                filacol = userfila + usercolumna;
-                                userfila = filacol.charAt(0);
-                                fila = userfila - 'A' + 1;
-                                usercolumna = filacol.substring(1);
-                                columna = Integer.parseInt(usercolumna);
-                                for (int j = 0; j < caselles.length; j++) {
-                                    if (filacol.equals(caselles[j])) {
-                                        System.out.println("ERROR. La casella en direcció a la orientació que has escollit, ja ha sigut utilitzada o té algun error.");
-                                        valid = false;
-                                        break;
-                                    }
-                                }
-                                break;
-                            case "E":
-                                columna++;
-                                filacol = userfila + String.valueOf(columna);
-                                userfila = filacol.charAt(0);
-                                fila = userfila - 'A' + 1;
-                                usercolumna = filacol.substring(1);
-                                columna = Integer.parseInt(usercolumna);
-                                for (int j = 0; j < caselles.length; j++) {
-                                    if (filacol.equals(caselles[j])) {
-                                        System.out.println("ERROR. La casella en direcció a la orientació que has escollit, ja ha sigut utilitzada o té algun error.");
-                                        valid = false;
-                                        break;
-                                    }
-                                }
-                                break;
-                            case "O":
-                                columna--;
-                                filacol = userfila + String.valueOf(columna);
-                                userfila = filacol.charAt(0);
-                                fila = userfila - 'A' + 1;
-                                usercolumna = filacol.substring(1);
-                                columna = Integer.parseInt(usercolumna);
-                                for (int j = 0; j < caselles.length; j++) {
-                                    if (filacol.equals(caselles[j])) {
-                                        System.out.println("ERROR. La casella en direcció a la orientació que has escollit, ja ha sigut utilitzada o té algun error.");
-                                        valid = false;
-                                        break;
-                                    }
-                                }
-                                break;
-                        }
+                        orientacio(k, i);
                         caselles[k] = filacol;
                         posicions[i] = orientacio;
                         if (!verificarFC(fila, columna) || !valid){
@@ -493,6 +227,60 @@ public class Client1 {
             out.flush();
             rebut = in.readUTF();
             System.out.println("\nServidor: " + rebut);
+    }
+
+    public static void comprovarLiniesColum() {
+        userfila = filacol.charAt(0);
+        fila = userfila - 'A' + 1;
+        usercolumna = filacol.substring(1);
+        columna = Integer.parseInt(usercolumna);
+        for (int j = 0; j < caselles.length; j++) {
+            if (filacol.equals(caselles[j])) {
+                System.out.println("ERROR. La casella en direcció a la orientació que has escollit, ja ha sigut utilitzada o té algun error.");
+                valid = false;
+                break;
+            }
+        }
+    }
+
+    public static void orientacio(int k, int i) throws IOException {
+        if (k < i + 1) {
+            filacol = filacolTemp;
+            userfila = userFilaTemp;
+            usercolumna = userColTemp;
+            columna = colTemp;
+
+            valid = true;
+
+            do {
+                System.out.println("Amb quina orientació(N,S,E,O)?");
+
+                orientacio = br.readLine();
+
+            } while (!(orientacio.equals("N") || orientacio.equals("S") || orientacio.equals("E") || orientacio.equals("O")));
+        }
+        switch (orientacio) {
+            case "N":
+                userfila--;
+                filacol = userfila + usercolumna;
+                comprovarLiniesColum();
+                break;
+            case "S":
+                userfila++;
+                filacol = userfila + usercolumna;
+                comprovarLiniesColum();
+                break;
+            case "E":
+                columna++;
+                filacol = userfila + String.valueOf(columna);
+                comprovarLiniesColum();
+                break;
+            case "O":
+                columna--;
+                filacol = userfila + String.valueOf(columna);
+                comprovarLiniesColum();
+                break;
+        }
     }
 
     public static void rebre() throws IOException, ClassNotFoundException {
