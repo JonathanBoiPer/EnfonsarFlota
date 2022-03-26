@@ -4,6 +4,7 @@ import practica_uf4.model.Missatge;
 
 import java.io.*;
 import java.net.*;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -324,7 +325,9 @@ public class Client1 {
      */
     public static void rebre() throws IOException {
         try {
+            Arrays.fill(caselles, "");
             String rebut;
+            int i = 0;
             while (!finalitzat) {
                 sleep(1);
                 out.flush();
@@ -344,6 +347,15 @@ public class Client1 {
                         fila = userfila - 'A' + 1;
                         usercolumna = filacol.substring(1);
                         columna = Integer.parseInt(usercolumna);
+                        for (int j = 0; j < caselles.length; j++) {
+                            if (filacol.equals(caselles[j])) {
+                                System.out.println("ERROR. La casella en direcció a la orientació que has escollit, ja ha sigut utilitzada o té algun error.");
+                                valid = false;
+                                break;
+                            }
+                        }
+                        caselles[i] = filacol;
+                        i++;
                     } catch (Exception e) {
                         System.out.println("ERROR. No has introduït correctament les dades.");
                         valid = false;
