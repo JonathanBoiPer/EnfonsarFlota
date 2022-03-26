@@ -61,7 +61,7 @@ public class Client1 {
      * Per escriure la connexio al servidor.
      * @return String amb la connexio(IP+Port).
      */
-    private static String obtenirConnexio(){
+    public static String obtenirConnexio(){
         String connexio;
         Scanner scan = new Scanner(System.in);
         System.out.print("Digues connexió al servidor: ");
@@ -74,7 +74,7 @@ public class Client1 {
      * @param connexio String en el qual estan les dues variables(IP+Port).
      * @return enter amb el numero del port.
      */
-    private static int obtenirPort(String connexio) {
+    public static int obtenirPort(String connexio) {
         int delimiter = connexio.indexOf(':');
         String port = connexio.substring(delimiter + 1);
         return Integer.parseInt(port);
@@ -85,7 +85,7 @@ public class Client1 {
      * @param connexio String en el qual estan les dues variables(IP+Port).
      * @return String amb la IP.
      */
-    private static String obtenirIP(String connexio){
+    public static String obtenirIP(String connexio){
         int delimiter = connexio.indexOf(':');
         connexio = connexio.substring(0,delimiter);
         return connexio;
@@ -94,7 +94,7 @@ public class Client1 {
     /**
      * Menu on s'explica el joc
      */
-    private static void menu() {
+    public static void menu() {
 
             System.out.println("\nBenvingut al joc Enfonsar la Flota\n");
             sleep(2);
@@ -114,7 +114,7 @@ public class Client1 {
      * Funcio on cada jugador assigna els seus vaixells
      * @throws IOException per tractar errors.
      */
-    private static void assignarVaixells() throws IOException{
+    public static void assignarVaixells() throws IOException{
 
             String rebut = "";
             String[] posicions = new String[13];
@@ -259,7 +259,7 @@ public class Client1 {
     /**
      * Funcio per descompondre la posicio que ha escrit el jugador i per comprovar que no estigui repetida de cap manera.
      */
-    private static void comprovarLiniesColum() {
+    public static void comprovarLiniesColum() {
         userfila = filacol.charAt(0);
         fila = userfila - 'A' + 1;
         usercolumna = filacol.substring(1);
@@ -279,7 +279,7 @@ public class Client1 {
      * @param i comptador enter
      * @throws IOException per tractament d'errors.
      */
-    private static void orientacio(int k, int i) throws IOException {
+    public static void orientacio(int k, int i) throws IOException {
         if (k <= i + 2) {
             filacol = filacolTemp;
             userfila = userFilaTemp;
@@ -323,7 +323,7 @@ public class Client1 {
      * Funcio on es rep els mapes i s'envien els moviments dels diferents jugadors.
      * @throws IOException per tractament d'errors.
      */
-    private static void rebre() throws IOException {
+    public static void rebre() throws IOException {
         try {
             Arrays.fill(caselles, "");
             String rebut;
@@ -389,7 +389,7 @@ public class Client1 {
      * @param columna enter referent a la columna.
      * @return boolean referent a si la posicio es valida o no.
      */
-    private static boolean verificarFC(int fila, int columna) {
+    public static boolean verificarFC(int fila, int columna) {
 
         if (fila > files || fila < 1 || columna > columnes || columna < 1) {
             System.out.println("Error. La columna i/o la fila es incorrecte.");
@@ -401,7 +401,7 @@ public class Client1 {
     /**
      * Funcio per iniciar el tauler del jugador
      */
-    private static void inizialitzarMapa() {
+    public static void inizialitzarMapa() {
         files = 8;
         columnes = 8;
         jugador = new char [files][columnes];
@@ -427,7 +427,7 @@ public class Client1 {
      * Mostrar el tauler amb les lletres i numeros escalats.
      * @param camp char bidimensional referent al tauler.
      */
-    private static void mostrarCamp(char[][] camp) {
+    public static void mostrarCamp(char[][] camp) {
         char lletra = 'A';
         int n = 0;
         System.out.println("  1  2  3  4  5  6  7  8");
@@ -445,7 +445,7 @@ public class Client1 {
      * Funcio per fer que el programa esperi uns segons.
      * @param segons enter per escriure quants segons vol esperar-se la maquina.
      */
-    private static void sleep(int segons) {
+    public static void sleep(int segons) {
         try {
             for (int i = 0; i < segons; i++) {
                 Thread.sleep(1000);

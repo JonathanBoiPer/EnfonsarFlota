@@ -58,7 +58,7 @@ public class Servidor {
      * Funcio per rebre les posicions inicials dels vaixells.
      * @throws IOException per llançar les excepcions.
      */
-    private static void rebudaVaixells() throws IOException {
+    public static void rebudaVaixells() throws IOException {
 
             try {
                 Missatge inici = (Missatge) in.readObject(); //Aquí arriba l'array amb les posicions i les orientacions
@@ -87,7 +87,7 @@ public class Servidor {
      * Funcio per enviar el tauler i rebre les posicions que demani bombardejar els jugadors
      * @throws IOException per llançar les excepcions.
      */
-    private static void enviar() throws IOException {
+    public static void enviar() throws IOException {
         String movimentJug1,movimentJug2;
         try {
             while (!finalitzat) {
@@ -154,7 +154,7 @@ public class Servidor {
      * Funcio per mostrar la IP i el port amb el qual treballa el servidor
      * @throws IOException per llançar les excepcions.
      */
-    private static void mostrarIP() throws IOException {
+    public static void mostrarIP() throws IOException {
         String ip;
         Socket s = new Socket("www.google.com",80);
         ip = s.getLocalAddress().getHostAddress();
