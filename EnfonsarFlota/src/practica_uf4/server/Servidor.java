@@ -163,7 +163,7 @@ public class Servidor {
         String ip;
         Socket s = new Socket("www.google.com",80);
         ip = s.getLocalAddress().getHostAddress();
-        System.out.println("La ip del servidor per realitzar la connexió del client 1 és: " + ip + ":5000");
+        System.out.println("La ip del servidor 1 és: " + ip + ":5000");
     }
 
 
