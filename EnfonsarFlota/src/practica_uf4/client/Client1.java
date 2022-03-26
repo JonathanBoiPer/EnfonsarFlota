@@ -395,8 +395,7 @@ public class Client1 {
         jugador = new char [files][columnes];
         contrincant = new char [files][columnes];
 
-        inizialitzarCamp(contrincant,'·');
-        inizialitzarCamp(jugador, '·');
+        inizialitzarCamp(contrincant,'.');inizialitzarCamp(jugador, '.');
     }
 
     /**

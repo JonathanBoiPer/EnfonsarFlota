@@ -21,7 +21,7 @@ public class Joc {
     public static void inicialitzarMapaOcult (char [][] mapa){
         for (int x = 0; x < mapa.length; x++){
             for (int y = 0; y < mapa[x].length; y++){
-             mapa[x][y] = '·';
+             mapa[x][y] = '.';
             }
         }
     }

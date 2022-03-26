@@ -3,7 +3,7 @@ package practica_uf4.model;
 import practica_uf4.model.vaixells.*;
 
 /**
- * Classe Flota, te el proposit d'administrar els vaixells de cada jugador (Flota1 = jugador1 & Flota2 = jugador2)
+ * Classe Flota, administra els vaixells de cada jugador (Flota1 = jugador1 i Flota2 = jugador2)
  */
 public class Flota {
 
