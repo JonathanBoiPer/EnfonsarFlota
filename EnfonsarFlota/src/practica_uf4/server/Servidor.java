@@ -72,10 +72,10 @@ public class Servidor {
                 Joc.imprimirMapa(2);
 
                 
-                out.writeUTF("Les dades han sigut rebudes amb exitosament.");
+                out.writeUTF("Les dades han sigut rebudes exitosament.");
                 out.flush();
 
-                out2.writeUTF("Les dades han sigut rebudes amb exitosament.");
+                out2.writeUTF("Les dades han sigut rebudes exitosament.");
                 out2.flush();
 
             } catch (ClassNotFoundException e) {
