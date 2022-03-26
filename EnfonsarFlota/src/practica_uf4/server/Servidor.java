@@ -12,8 +12,6 @@ import java.net.*;
 public class Servidor {
 
     static boolean finalitzat;
-    static char[][] taulerUsuari1 = new char[8][8];
-    static char[][] taulerUsuari2 = new char[8][8];
     static ObjectOutputStream out;
     static ObjectInputStream in;
     static ObjectOutputStream out2;
