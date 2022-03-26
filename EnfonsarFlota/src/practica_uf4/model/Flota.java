@@ -47,9 +47,9 @@ public class Flota {
      * Crea els objectes vaixells dins d'un array
      */
     public void inicialitzarVaixells(){
-        for (int x = 0; x < 3 ; x++){ Vaixells[x] = new Submarins() {}; }
-        for (int x = 3; x < 5 ; x++){ Vaixells[x] = new Destructors() {}; }
-        for (int x = 5; x < 7 ; x++){ Vaixells[x] = new Cuirassats() {}; }
+        for (int x = 0; x < 3 ; x++){ Vaixells[x] = new Submari() {}; }
+        for (int x = 3; x < 5 ; x++){ Vaixells[x] = new Destructor() {}; }
+        for (int x = 5; x < 7 ; x++){ Vaixells[x] = new Cuirassat() {}; }
         Vaixells[7] = new Portaavions() {};
     }
 

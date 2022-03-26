@@ -5,9 +5,9 @@ import practica_uf4.model.Joc;
 /**
  * Classe submarins, d'una casella. N'hi ha 3.
  */
-public class Submarins extends Vaixell {
+public class Submari extends Vaixell {
 
-    public Submarins(){
+    public Submari(){
         vides = 1;
     }
 

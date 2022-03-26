@@ -5,10 +5,10 @@ import practica_uf4.model.Joc;
 /**
  * Classe Cuirassats, vaixells de 3 vides. N'hi ha 2.
  */
-public class Cuirassats extends Vaixell {
+public class Cuirassat extends Vaixell {
 
 
-    public Cuirassats(){
+    public Cuirassat(){
         vides = 3;
     }
 

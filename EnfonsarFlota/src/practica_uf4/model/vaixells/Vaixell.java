@@ -16,9 +16,5 @@ public abstract class Vaixell {
         return vides == 0;
     }
 
-    public void setOrientacio(String orientacio) { this.orientacio = orientacio; }
-
-    public void setPosicio(String posicio) { this.posicio = posicio; }
-
 
 }
