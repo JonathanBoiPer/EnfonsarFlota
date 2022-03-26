@@ -8,10 +8,10 @@ import java.net.*;
  */
 public class Missatge implements Serializable {
 
-    String[] array = new String[13];
-    char[][] taulerUsuari = new char[8][8];
-    String moviment;
-    boolean finalitzat;
+    static String[] array = new String[13];
+    static char[][] taulerUsuari = new char[8][8];
+    static String moviment;
+    static boolean finalitzat;
 
     /**
      * Constructor de la classe missatge
