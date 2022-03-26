@@ -44,7 +44,6 @@ public class Servidor {
 
 
         rebudaVaixells();
-        rebudaVaixells();
         enviar();
         in.close();
         in2.close();
@@ -99,7 +98,7 @@ public class Servidor {
      */
     public static void enviar() throws IOException {
         try {
-            while (finalitzat) {
+            while (!finalitzat) {
                 //Enviar el taulell del contrincant
                 out.writeUTF("Tauler del contrincant:\n");
                 Missatge tauler1 = new Missatge(taulerUsuari2);
@@ -133,12 +132,12 @@ public class Servidor {
                 out2.flush();
 
                 //Enviar taulell del jugador propi
-                out.writeUTF("El teu tauler actualitzat:\n");
+                out.writeUTF("El teu tauler actualitzat:");
                 Missatge taulerJug1 = new Missatge(taulerUsuari2);
                 out.writeObject(taulerJug1);
                 out.flush();
 
-                out2.writeUTF("El teu tauler actualitzat:\n");
+                out2.writeUTF("El teu tauler actualitzat:");
                 Missatge taulerJug2 = new Missatge(taulerUsuari1);
                 out2.writeObject(taulerJug2);
                 out2.flush();

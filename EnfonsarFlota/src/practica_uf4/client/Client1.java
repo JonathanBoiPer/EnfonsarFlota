@@ -325,7 +325,8 @@ public class Client1 {
     public static void rebre() throws IOException {
         try {
             String rebut;
-            while (finalitzat) {
+            while (!finalitzat) {
+                sleep(1);
                 out.flush();
                 rebut = in.readUTF();
                 System.out.println("\nServidor: " + rebut);
@@ -358,6 +359,13 @@ public class Client1 {
                 finalitzat = moviment.isFinalitzat();
                 out.writeObject(moviment);
 
+                out.flush();
+                rebut = in.readUTF();
+                System.out.println("\nServidor: " + rebut);
+
+                out.flush();
+                rebut = in.readUTF();
+                System.out.println("\nServidor: " + rebut);
 
                 // Mostrar camp jugador
                 Missatge taulellJugador = (Missatge) in.readObject();
