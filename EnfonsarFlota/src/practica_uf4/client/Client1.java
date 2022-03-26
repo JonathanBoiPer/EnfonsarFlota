@@ -260,7 +260,7 @@ public class Client1 {
      */
     public static void comprovarLiniesColum() {
         userfila = filacol.charAt(0);
-        fila = userfila - 'A';
+        fila = userfila - 'A' + 1;
         usercolumna = filacol.substring(1);
         columna = Integer.parseInt(usercolumna);
         for (int j = 0; j < caselles.length; j++) {
@@ -420,7 +420,7 @@ public class Client1 {
         char lletra = 'A';
         int n = 0;
         System.out.println("  1  2  3  4  5  6  7  8");
-        for (int i = 0; i < camp.length -1; i++) {
+        for (int i = 0; i < camp.length; i++) {
             System.out.print((char) (lletra + n));
             for (int j = 0; j < camp[i].length; j++) {
                 System.out.print(" " + camp[i][j] + " ");
