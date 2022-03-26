@@ -37,7 +37,7 @@ public class Servidor {
         System.out.println("Jugador 1 connectat");
         Joc.inicialitzarMapaVisible(Joc.mapaVisibleJug1);
         Joc.inicialitzarMapaOcult(Joc.mapaOcultJug1);
-
+        
         Socket socket2 = server.accept();
         System.out.println("Jugador 2 connectat");
         Joc.inicialitzarMapaVisible(Joc.mapaVisibleJug2);
@@ -50,12 +50,11 @@ public class Servidor {
 
         System.out.println("Canals de comunicació oberts...");
 
+
         rebudaVaixells();
         enviar();
         in.close();
         in2.close();
-        out.close();
-        out2.close();
         socket.close();
         server.close();
     }
@@ -77,7 +76,7 @@ public class Servidor {
                 jug2 = new Flota(posicions2,2);
                 Joc.imprimirMapa(2);
 
-
+                
                 out.writeUTF("Les dades han sigut rebudes amb exitosament.");
                 out.flush();
 
@@ -97,15 +96,12 @@ public class Servidor {
         String movimentJug1,movimentJug2;
         try {
             while (!finalitzat) {
-
-
                 //Enviar el taulell del contrincant
                 out.writeUTF("Tauler del contrincant:\n");
                 out.reset();
                 Missatge tauler1 = new Missatge(Joc.mapaOcultJug2);
                 out.writeObject(tauler1);
                 out.flush();
-
 
                 out2.writeUTF("Tauler del contrincant:\n");
                 out2.reset();
@@ -115,14 +111,14 @@ public class Servidor {
 
 
                 // Esperar i mostrar missatge
-                System.out.println("\nEsperant moviment del jugador 1...");
+                System.out.println("\nEsperant missatge del client...");
                 Missatge moviment = (Missatge) in.readObject(); //Aquí arriba l'array amb el moviment
                 System.out.println(moviment.getMoviment());
                 movimentJug1 = moviment.getMoviment();
                 finalitzat = Joc.procesarMoviment(movimentJug1,1,jug1);
                 System.out.println("Moviment del jugador 1 rebut.");
 
-                System.out.println("\nEsperant moviment del jugador 2...");
+                System.out.println("\nEsperant missatge del client...");
                 Missatge moviment2 = (Missatge) in2.readObject(); //Aquí arriba l'array amb el moviment
                 System.out.println(moviment2.getMoviment());
                 movimentJug2 = moviment2.getMoviment();
@@ -131,22 +127,27 @@ public class Servidor {
                 }
                 System.out.println("Moviment del jugador 2 rebut.");
 
+                // Respondre al client
+                out.writeUTF("Posició rebuda.");
+                out.flush();
+
+                out2.writeUTF("Posició rebuda.");
+                out2.flush();
 
                 //Enviar taulell del jugador propi
+                out.writeUTF("El teu tauler actualitzat:");
                 Missatge taulerJug1 = new Missatge(Joc.mapaVisibleJug1);
                 taulerJug1.setFinalitzat(finalitzat);
                 out.reset();
                 out.writeObject(taulerJug1);
                 out.flush();
 
+                out2.writeUTF("El teu tauler actualitzat:");
                 Missatge taulerJug2 = new Missatge(Joc.mapaVisibleJug2);
                 taulerJug1.setFinalitzat(finalitzat);
                 out2.reset();
                 out2.writeObject(taulerJug2);
                 out2.flush();
-
-                sleep(10);
-
 
             }
         }catch (ClassNotFoundException e) {
@@ -162,7 +163,7 @@ public class Servidor {
         String ip;
         Socket s = new Socket("www.google.com",80);
         ip = s.getLocalAddress().getHostAddress();
-        System.out.println("La ip del servidor és: " + ip + ":5000");
+        System.out.println("La ip del servidor per realitzar la connexió del client 1 és: " + ip + ":5000");
     }
 
 

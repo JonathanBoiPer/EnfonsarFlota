@@ -249,7 +249,6 @@ public class Client1 {
             taulell.setArray(posicions);
             out.writeObject(taulell);
 
-            System.out.println("Esperant al mapa de l'altre jugador...\n");
 
             out.flush();
             rebut = in.readUTF();
@@ -327,7 +326,7 @@ public class Client1 {
         try {
             String rebut;
             while (!finalitzat) {
-
+                sleep(1);
                 out.flush();
                 rebut = in.readUTF();
                 System.out.println("\nServidor: " + rebut);
@@ -350,20 +349,22 @@ public class Client1 {
                         valid = false;
                     }
                 } while (!verificarFC(fila, columna) || !valid);
-
-
                 Missatge moviment = new Missatge(jugador);
                 moviment.setMoviment(filacol);
-                //finalitzat = moviment.isFinalitzat();
-                out.reset();
+                finalitzat = moviment.isFinalitzat();
                 out.writeObject(moviment);
 
+                out.flush();
+                rebut = in.readUTF();
+                System.out.println("\nServidor: " + rebut);
+
+                out.flush();
+                rebut = in.readUTF();
+                System.out.println("\nServidor: " + rebut);
 
                 // Mostrar camp jugador
                 Missatge taulellJugador = (Missatge) in.readObject();
                 mostrarCamp(taulellJugador.getTaulerUsuari());
-
-                finalitzat = taulellJugador.isFinalitzat();
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -417,27 +418,12 @@ public class Client1 {
      */
     public static void mostrarCamp(char[][] camp) {
         char lletra = 'A';
-        //char numero = '1';
-        //int l = 0;
         int n = 0;
         System.out.println("  1  2  3  4  5  6  7  8");
-        for (int i = 0; i < camp.length; i++) {
+        for (int i = 0; i < camp.length -1; i++) {
             System.out.print((char) (lletra + n));
-            for (int j = 0; j < camp[i].length; j++) {
+            for (int j = 0; j < camp[i].length -1; j++) {
                 System.out.print(" " + camp[i][j] + " ");
-
-
-                /*
-                if (i == 0 && j > 0) {
-                    camp[i][j] = (char) (numero + n);
-                    n++;
-                } else if (j == 0 && i > 0) {
-                    camp[i][j] = (char) (lletra + l);
-                    l++;
-                }
-                System.out.print("  " + camp[i][j]);
-
-                 */
             }
             n++;
             System.out.println();
