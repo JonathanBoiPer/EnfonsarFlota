@@ -15,8 +15,9 @@ public class Client1 {
     static int files;
     static int columnes;
     static boolean finalitzat;
-    static char [][] ocult;
-    static char [][] visible;
+
+    static char [][] contrincant;
+    static char [][] jugador;
     static ObjectOutputStream out;
     static ObjectInputStream in;
     static BufferedReader br;
@@ -29,14 +30,14 @@ public class Client1 {
 
     /**
      * Inicialitzar les diferents funcions del jugador
-     * @param args
-     * @throws IOException per tractar errors
+     * @param args per realitzar strings
+     * @throws IOException per tractar errors.
      */
     public static void main(String[] args) throws IOException {
 
         String ip = obtenirConnexio();
         int port = obtenirPort(ip);
-        ip = separarPort(ip);
+        ip = obtenirIP(ip);
 
 
         Socket connexio = new Socket(ip, port);
@@ -51,8 +52,14 @@ public class Client1 {
 
         menu();
         assignarVaixells();
+        rebre();
         connexio.close();
     }
+
+    /**
+     * Per escriure la connexio al servidor.
+     * @return String amb la connexio(IP+Port).
+     */
     public static String obtenirConnexio(){
         String connexio;
         Scanner scan = new Scanner(System.in);
@@ -60,18 +67,32 @@ public class Client1 {
         connexio = scan.nextLine();
         return connexio;
     }
+
+    /**
+     * Funcio per dividir la variable connexio i obtenir el port.
+     * @param connexio String en el qual estan les dues variables(IP+Port).
+     * @return enter amb el numero del port.
+     */
     public static int obtenirPort(String connexio) {
         int delimiter = connexio.indexOf(':');
         String port = connexio.substring(delimiter + 1);
         return Integer.parseInt(port);
     }
 
-    public static String separarPort(String connexio){
+    /**
+     * Funcio per obtenir la IP
+     * @param connexio String en el qual estan les dues variables(IP+Port).
+     * @return String amb la IP.
+     */
+    public static String obtenirIP(String connexio){
         int delimiter = connexio.indexOf(':');
         connexio = connexio.substring(0,delimiter);
         return connexio;
     }
 
+    /**
+     * Menu on s'explica el joc
+     */
     public static void menu() {
 
             System.out.println("\nBenvingut al joc Enfonsar la Flota\n");
@@ -83,11 +104,16 @@ public class Client1 {
             System.out.println("1 - Portaavions de 4 caselles\n");
             sleep(6);
             System.out.println("Aquest serà el taulell:\n");
-            Client1.inizialitzarMapa();
+            inizialitzarMapa();
+            mostrarCamp(jugador);
             sleep(2);
         }
 
-        public static void assignarVaixells() throws IOException{
+    /**
+     * Funcio on cada jugador assigna els seus vaixells
+     * @throws IOException per tractar errors.
+     */
+    public static void assignarVaixells() throws IOException{
 
             String rebut = "";
             String[] posicions = new String[13];
@@ -219,7 +245,7 @@ public class Client1 {
             sleep(2);
 
 
-            Missatge taulell = new Missatge(visible);
+            Missatge taulell = new Missatge(jugador);
             taulell.setArray(posicions);
             out.writeObject(taulell);
 
@@ -229,6 +255,9 @@ public class Client1 {
             System.out.println("\nServidor: " + rebut);
     }
 
+    /**
+     * Funcio per descompondre la posicio que ha escrit el jugador i per comprovar que no estigui repetida de cap manera.
+     */
     public static void comprovarLiniesColum() {
         userfila = filacol.charAt(0);
         fila = userfila - 'A' + 1;
@@ -243,6 +272,12 @@ public class Client1 {
         }
     }
 
+    /**
+     * Funcio per comprovar que la orientacio que ha escollit l'usuari no col·lisioni amb cap vaixell ja posat.
+     * @param k comptador enter
+     * @param i comptador enter
+     * @throws IOException per tractament d'errors.
+     */
     public static void orientacio(int k, int i) throws IOException {
         if (k <= i + 2) {
             filacol = filacolTemp;
@@ -283,19 +318,67 @@ public class Client1 {
         }
     }
 
-    public static void rebre() throws IOException, ClassNotFoundException {
-        while (true) {
-            // Demanar i enviar missatge
-            System.out.print("\nEscriu la casella que vols bombardejar: ");
-            String missatge = scan.nextLine();
-            out.writeObject(missatge);
+    /**
+     * Funcio on es rep els mapes i s'envien els moviments dels diferents jugadors.
+     * @throws IOException per tractament d'errors.
+     */
+    public static void rebre() throws IOException {
+        try {
+            String rebut;
+            while (finalitzat) {
+                out.flush();
+                rebut = in.readUTF();
+                System.out.println("\nServidor: " + rebut);
+                // Rebre el taulell del contrincant
+                Missatge taulellContrincant = (Missatge) in.readObject();
+                for (int i = 1; i < 9; i++) {
+                    for (int j = 1; j < 9; j++) {
+                        contrincant[i][j] = taulellContrincant.getTaulerUsuari()[i][j];
+                    }
+                }
+                mostrarCamp(contrincant);
 
-            // Esperar i mostrar resposta
-            Object obj = in.readObject();
-            System.out.println("Resposta del servidor: " + obj);
+                // Demanar i enviar missatge
+                do {
+                    valid = true;
+                    System.out.println("\nEscriu la casella que vols bombardejar: (Exemple: A1)");
+                    try {
+                        filacol = scan.nextLine();
+                        userfila = filacol.charAt(0);
+                        fila = userfila - 'A' + 1;
+                        usercolumna = filacol.substring(1);
+                        columna = Integer.parseInt(usercolumna);
+                    } catch (Exception e) {
+                        System.out.println("ERROR. No has introduït correctament les dades.");
+                        valid = false;
+                    }
+                } while (!verificarFC(fila, columna) || !valid);
+                Missatge moviment = new Missatge(jugador);
+                moviment.setMoviment(filacol);
+                finalitzat = moviment.isFinalitzat();
+                out.writeObject(moviment);
+
+
+                // Mostrar camp jugador
+                Missatge taulellJugador = (Missatge) in.readObject();
+                for (int i = 1; i < 9; i++) {
+                    for (int j = 1; j < 9; j++) {
+                        contrincant[i][j] = taulellJugador.getTaulerUsuari()[i][j];
+                    }
+                }
+                mostrarCamp(jugador);
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
+    /**
+     * Funcio per comprovar que tant la linia com la columna que l'usuari hagi seleccionat estiguin dintre del rang estipulat.
+     * @param fila enter referent a la fila del tauler.
+     * @param columna enter referent a la columna.
+     * @return boolean referent a si la posicio es valida o no.
+     */
     public static boolean verificarFC(int fila, int columna) {
 
         if (fila >= files -1 || fila < 1 || columna >= columnes - 1 || columna < 1) {
@@ -305,18 +388,24 @@ public class Client1 {
         else return true;
     }
 
+    /**
+     * Funcio per iniciar el tauler del jugador
+     */
     public static void inizialitzarMapa() {
         files = 10;
         columnes = 10;
-        ocult = new char [files][columnes];
-        visible = new char [files][columnes];
+        jugador = new char [files][columnes];
+        contrincant = new char [files][columnes];
 
-        inizialitzarCamp(ocult, ' ');
-        inizialitzarCamp(visible, '.');
-
-        mostrarCamp(visible);
+        inizialitzarCamp(contrincant,'.');
+        inizialitzarCamp(jugador, '.');
     }
 
+    /**
+     * Funcio per omplir els camps dels usuaris.
+     * @param camp char bidimensional referent al tauler.
+     * @param c char referent al caracter amb el qual volem omplir el camp.
+     */
     static void inizialitzarCamp(char[][] camp, char c) {
         for (int i = 1; i < files -1; i++) {
             for (int j = 1; j < columnes -1; j++) {
@@ -325,6 +414,10 @@ public class Client1 {
         }
     }
 
+    /**
+     * Mostrar el tauler amb les lletres i numeros escalats.
+     * @param camp char bidimensional referent al tauler.
+     */
     public static void mostrarCamp(char[][] camp) {
         char lletra = 'A';
         char numero = '1';
@@ -345,6 +438,10 @@ public class Client1 {
         }
     }
 
+    /**
+     * Funcio per fer que el programa esperi uns segons.
+     * @param segons enter per escriure quants segons vol esperar-se la maquina.
+     */
     public static void sleep(int segons) {
         try {
             for (int i = 0; i < segons; i++) {

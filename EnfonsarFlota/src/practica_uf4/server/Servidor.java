@@ -6,6 +6,9 @@ import practica_uf4.model.Joc;
 import java.io.*;
 import java.net.*;
 
+/**
+ * Classe servidor per rebre les connexions i dades dels clients.
+ */
 public class Servidor {
 
     static boolean finalitzat;
@@ -18,9 +21,9 @@ public class Servidor {
 
 
     /**
-     *
-     * @param args
-     * @throws IOException
+     * Funcio main per inicialitzar el servidor
+     * @param args Per poder fer Strings
+     * @throws IOException per llançar les excepcions.
      */
     public static void main(String[] args) throws IOException {
         mostrarIP();
@@ -40,18 +43,20 @@ public class Servidor {
         System.out.println("Canals de comunicació oberts...");
 
 
-        rebudaVaixells(socket);
-        rebudaVaixells(socket2);
-
+        rebudaVaixells();
+        rebudaVaixells();
+        enviar();
+        in.close();
+        in2.close();
+        socket.close();
         server.close();
     }
 
     /**
-     *
-     * @param socket
-     * @throws IOException
+     * Funcio per rebre les posicions inicials dels vaixells.
+     * @throws IOException per llançar les excepcions.
      */
-    public static void rebudaVaixells(Socket socket) throws IOException {
+    public static void rebudaVaixells() throws IOException {
 
             try {
                 Missatge inici = (Missatge) in.readObject(); //Aquí arriba l'array amb les posicions i les orientacions
@@ -77,22 +82,6 @@ public class Servidor {
                     }
                 }
 
-                System.out.println("\nJugador 1");
-                for (int i = 0; i < posicions.length; i++) {
-                    if (i < 3) System.out.println("Posició submarí: " + posicions[i]);
-                    if (i > 2 && i < 7) System.out.println("Posició destructor: " + posicions[i]);
-                    if (i > 6 && i < 11) System.out.println("Posició cuirassat: " + posicions[i]);
-                    if (i > 10 && i < 13) System.out.println("Posició portaavions: " + posicions[i]);
-                }
-
-                System.out.println("\nJugador 2");
-                for (int i = 0; i < posicions2.length; i++) {
-                    if (i < 3) System.out.println("Posició submarí: " + posicions2[i]);
-                    if (i > 2 && i < 7) System.out.println("Posició destructor: " + posicions2[i]);
-                    if (i > 6 && i < 11) System.out.println("Posició cuirassat: " + posicions2[i]);
-                    if (i > 10 && i < 13) System.out.println("Posició portaavions: " + posicions2[i]);
-                }
-
                 out.writeUTF("Les dades han sigut rebudes amb exitosament.");
                 out.flush();
 
@@ -102,27 +91,66 @@ public class Servidor {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-
-        in.close();
-        in2.close();
-        socket.close();
     }
 
-    public static void enviar() throws IOException, ClassNotFoundException {
-        while (true) {
-            // Esperar i mostrar missatge
-            System.out.println("\nEsperant missatge del client...");
-            Object obj = in.readObject();
-            System.out.println("Missatge rebut del client: " + obj);
+    /**
+     * Funcio per enviar el tauler i rebre les posicions que demani bombardejar els jugadors
+     * @throws IOException per llançar les excepcions.
+     */
+    public static void enviar() throws IOException {
+        try {
+            while (finalitzat) {
+                //Enviar el taulell del contrincant
+                out.writeUTF("Tauler del contrincant:\n");
+                Missatge tauler1 = new Missatge(taulerUsuari2);
+                out.writeObject(tauler1);
+                out.flush();
 
-            // Respondre al client
-            out.writeObject("He rebut el missatge ---> " + obj);
+                out2.writeUTF("Tauler del contrincant:\n");
+                Missatge tauler2 = new Missatge(taulerUsuari1);
+                out2.writeObject(tauler2);
+                out2.flush();
+
+
+                // Esperar i mostrar missatge
+                System.out.println("\nEsperant missatge del client...");
+                Missatge moviment = (Missatge) in.readObject(); //Aquí arriba l'array amb el moviment
+                System.out.println(moviment.getMoviment());
+                System.out.println("Missatge rebut del jugador 1.");
+                finalitzat = moviment.isFinalitzat();
+
+                System.out.println("\nEsperant missatge del client...");
+                Missatge moviment2 = (Missatge) in2.readObject(); //Aquí arriba l'array amb el moviment
+                System.out.println(moviment2.getMoviment());
+                System.out.println("Missatge rebut del jugador 2.");
+                finalitzat = moviment2.isFinalitzat();
+
+                // Respondre al client
+                out.writeUTF("Posició rebuda.");
+                out.flush();
+
+                out2.writeUTF("Posició rebuda.");
+                out2.flush();
+
+                //Enviar taulell del jugador propi
+                out.writeUTF("El teu tauler actualitzat:\n");
+                Missatge taulerJug1 = new Missatge(taulerUsuari2);
+                out.writeObject(taulerJug1);
+                out.flush();
+
+                out2.writeUTF("El teu tauler actualitzat:\n");
+                Missatge taulerJug2 = new Missatge(taulerUsuari1);
+                out2.writeObject(taulerJug2);
+                out2.flush();
+            }
+        }catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
     /**
-     *
-     * @throws IOException
+     * Funcio per mostrar la IP i el port amb el qual treballa el servidor
+     * @throws IOException per llançar les excepcions.
      */
     public static void mostrarIP() throws IOException {
         String ip;
