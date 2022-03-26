@@ -332,12 +332,7 @@ public class Client1 {
                 System.out.println("\nServidor: " + rebut);
                 // Rebre el taulell del contrincant
                 Missatge taulellContrincant = (Missatge) in.readObject();
-                for (int i = 1; i < 9; i++) {
-                    for (int j = 1; j < 9; j++) {
-                        contrincant[i][j] = taulellContrincant.getTaulerUsuari()[i][j];
-                    }
-                }
-                mostrarCamp(contrincant);
+                mostrarCamp(taulellContrincant.getTaulerUsuari());
 
                 // Demanar i enviar missatge
                 do {
@@ -369,12 +364,7 @@ public class Client1 {
 
                 // Mostrar camp jugador
                 Missatge taulellJugador = (Missatge) in.readObject();
-                for (int i = 1; i < 9; i++) {
-                    for (int j = 1; j < 9; j++) {
-                        contrincant[i][j] = taulellJugador.getTaulerUsuari()[i][j];
-                    }
-                }
-                mostrarCamp(jugador);
+                mostrarCamp(taulellJugador.getTaulerUsuari());
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -389,7 +379,7 @@ public class Client1 {
      */
     public static boolean verificarFC(int fila, int columna) {
 
-        if (fila >= files -1 || fila < 1 || columna >= columnes - 1 || columna < 1) {
+        if (fila > files || fila < 1 || columna > columnes || columna < 1) {
             System.out.println("Error. La columna i/o la fila es incorrecte.");
             return false;
         }
@@ -400,13 +390,13 @@ public class Client1 {
      * Funcio per iniciar el tauler del jugador
      */
     public static void inizialitzarMapa() {
-        files = 10;
-        columnes = 10;
+        files = 8;
+        columnes = 8;
         jugador = new char [files][columnes];
         contrincant = new char [files][columnes];
 
-        inizialitzarCamp(contrincant,'.');
-        inizialitzarCamp(jugador, '.');
+        inizialitzarCamp(contrincant,'·');
+        inizialitzarCamp(jugador, '·');
     }
 
     /**
@@ -415,8 +405,8 @@ public class Client1 {
      * @param c char referent al caracter amb el qual volem omplir el camp.
      */
     static void inizialitzarCamp(char[][] camp, char c) {
-        for (int i = 1; i < files -1; i++) {
-            for (int j = 1; j < columnes -1; j++) {
+        for (int i = 0; i < files; i++) {
+            for (int j = 0; j < columnes; j++) {
                 camp[i][j] = c;
             }
         }
@@ -428,20 +418,14 @@ public class Client1 {
      */
     public static void mostrarCamp(char[][] camp) {
         char lletra = 'A';
-        char numero = '1';
-        int l = 0;
         int n = 0;
+        System.out.println("  1  2  3  4  5  6  7  8");
         for (int i = 0; i < camp.length -1; i++) {
+            System.out.print((char) (lletra + n));
             for (int j = 0; j < camp[i].length -1; j++) {
-                if (i == 0 && j > 0) {
-                    camp[i][j] = (char) (numero + n);
-                    n++;
-                } else if (j == 0 && i > 0) {
-                    camp[i][j] = (char) (lletra + l);
-                    l++;
-                }
-                System.out.print("  " + camp[i][j]);
+                System.out.print(" " + camp[i][j] + " ");
             }
+            n++;
             System.out.println();
         }
     }
