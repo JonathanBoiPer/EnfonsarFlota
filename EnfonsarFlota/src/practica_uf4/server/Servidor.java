@@ -1,8 +1,6 @@
 package practica_uf4.server;
 
-import practica_uf4.model.Flota;
-import practica_uf4.model.Missatge;
-import practica_uf4.model.Joc;
+import practica_uf4.model.*;
 import java.io.*;
 import java.net.*;
 
@@ -11,14 +9,13 @@ import java.net.*;
  */
 public class Servidor {
 
-    static boolean finalitzat;
-    static ObjectOutputStream out;
-    static ObjectInputStream in;
-    static ObjectOutputStream out2;
-    static ObjectInputStream in2;
-    static Flota jug1;
-    static Flota jug2;
-
+    private static boolean finalitzat;
+    private static ObjectOutputStream out;
+    private static ObjectInputStream in;
+    private static ObjectOutputStream out2;
+    private static ObjectInputStream in2;
+    private static Flota jug1;
+    private static Flota jug2;
 
     /**
      * Funcio main per inicialitzar el servidor
@@ -61,7 +58,7 @@ public class Servidor {
      * Funcio per rebre les posicions inicials dels vaixells.
      * @throws IOException per llançar les excepcions.
      */
-    public static void rebudaVaixells() throws IOException {
+    private static void rebudaVaixells() throws IOException {
 
             try {
                 Missatge inici = (Missatge) in.readObject(); //Aquí arriba l'array amb les posicions i les orientacions
@@ -90,7 +87,7 @@ public class Servidor {
      * Funcio per enviar el tauler i rebre les posicions que demani bombardejar els jugadors
      * @throws IOException per llançar les excepcions.
      */
-    public static void enviar() throws IOException {
+    private static void enviar() throws IOException {
         String movimentJug1,movimentJug2;
         try {
             while (!finalitzat) {
@@ -157,13 +154,10 @@ public class Servidor {
      * Funcio per mostrar la IP i el port amb el qual treballa el servidor
      * @throws IOException per llançar les excepcions.
      */
-    public static void mostrarIP() throws IOException {
+    private static void mostrarIP() throws IOException {
         String ip;
         Socket s = new Socket("www.google.com",80);
         ip = s.getLocalAddress().getHostAddress();
         System.out.println("La ip del servidor és: " + ip + ":5000");
     }
-
-
-
 }
