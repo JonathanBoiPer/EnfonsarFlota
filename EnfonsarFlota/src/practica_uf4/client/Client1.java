@@ -333,13 +333,6 @@ public class Client1 {
                 System.out.println("\nServidor: " + rebut);
                 // Rebre el taulell del contrincant
                 Missatge taulellContrincant = (Missatge) in.readObject();
-
-                for (int i = 0; i < 8; i++) {
-                    for (int j = 0; j < 8; j++) {
-                        contrincant[i][j] = taulellContrincant.getTaulerUsuari()[i][j];
-                    }
-                }
-
                 mostrarCamp(taulellContrincant.getTaulerUsuari());
 
                 // Demanar i enviar missatge
@@ -368,11 +361,6 @@ public class Client1 {
 
                 // Mostrar camp jugador
                 Missatge taulellJugador = (Missatge) in.readObject();
-                for (int i = 0; i < 8; i++) {
-                    for (int j = 0; j < 8; j++) {
-                        contrincant[i][j] = taulellJugador.getTaulerUsuari()[i][j];
-                    }
-                }
                 mostrarCamp(taulellJugador.getTaulerUsuari());
 
                 finalitzat = taulellJugador.isFinalitzat();

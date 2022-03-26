@@ -39,7 +39,7 @@ public class Joc {
     }
 
     /**
-     * Funcio per a imprimir el taulell visible (Funcio per a fer probes i comprovacions)
+     * Funcio per a imprimir el taulell visible (Funcio per a fer proves i comprovacions)
      * @param jugador Int, a quin jugador pertany el taulell
      */
     public static void imprimirMapa(int jugador){
@@ -62,6 +62,10 @@ public class Joc {
 
     }
 
+    /**
+     * Mostra el mapa ocult, amb les caselles tapades (Funcio principalment per a proves i comprovacions)
+     * @param jugador int, el numero del jugador que te aquest mapa ocult
+     */
     public static void imprimirMapaOcult(int jugador){
         if (jugador == 1) {
             for (int x = 0; x < mapaOcultJug1.length; x++) {
@@ -82,6 +86,13 @@ public class Joc {
 
     }
 
+    /**
+     * LA funcio mes important, que agafa el moviment, actualitza els mapes i diu si la partida ha acabar
+     * @param moviment String, la casella a la que el jugador ha decidit disparar
+     * @param jugador Int, el numero del jugador que ha fet la jugada
+     * @param flota Flota, la flota corresponent al jugador contrincant
+     * @return Boolean, true si la flota contrincaria s'ha enfonsat
+     */
     public static boolean procesarMoviment(String moviment, int jugador, Flota flota){
         int fila  = (moviment.charAt(0) - 65);
         int columna = (moviment.charAt(1)-49);

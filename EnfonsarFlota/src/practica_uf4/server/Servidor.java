@@ -145,6 +145,8 @@ public class Servidor {
                 out2.writeObject(taulerJug2);
                 out2.flush();
 
+                sleep(10);
+
 
             }
         }catch (ClassNotFoundException e) {
@@ -161,5 +163,20 @@ public class Servidor {
         Socket s = new Socket("www.google.com",80);
         ip = s.getLocalAddress().getHostAddress();
         System.out.println("La ip del servidor és: " + ip + ":5000");
+    }
+
+
+    /**
+     * Funcio per a parar l'execucio del programa momentariament
+     * @param segons Int,la quantitat de segons que es vol fer esperar
+     */
+    public static void sleep(int segons) {
+        try {
+            for (int i = 0; i < segons; i++) {
+                Thread.sleep(1000);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }
