@@ -62,5 +62,57 @@ public class Joc {
 
     }
 
+    public static void imprimirMapaOcult(int jugador){
+        if (jugador == 1) {
+            for (int x = 0; x < mapaOcultJug1.length; x++) {
+                for (int y = 0; y < mapaOcultJug1[x].length; y++) {
+                    System.out.print(" " + mapaOcultJug1[x][y] + " ");
+                }
+                System.out.println();
+            }
+        }else if (jugador == 2){
+            for (int x = 0; x < mapaOcultJug2.length; x++) {
+                for (int y = 0; y < mapaOcultJug2[x].length; y++) {
+                    System.out.print(" " + mapaOcultJug2[x][y] + " ");
+                }
+                System.out.println();
+            }
+        }
+        System.out.println("\n\n");
+
+    }
+
+    public static boolean procesarMoviment(String moviment, int jugador, Flota flota){
+        int fila  = (moviment.charAt(0) - 65);
+        int columna = (moviment.charAt(1)-49);
+        boolean finalitzat = false;
+
+        if (jugador == 1){
+            if (mapaVisibleJug2[fila][columna] != 61) {
+                int numVaixell =  mapaVisibleJug2[fila][columna]-49;
+                System.out.println(mapaVisibleJug2[fila][columna] + " " + numVaixell);
+                finalitzat = flota.setEstatVaixells(numVaixell);
+                mapaVisibleJug2[fila][columna] = 'X';
+                mapaOcultJug2[fila][columna] = 'X';
+
+            }else{
+                mapaOcultJug2[fila][columna] = '=';
+            }
+        }else if (jugador == 2){
+            if (mapaVisibleJug1[fila][columna] != 61) {
+
+                int numVaixell = (int) mapaVisibleJug1[fila][columna]-49;
+                finalitzat =  flota.setEstatVaixells(numVaixell);
+                mapaVisibleJug1[fila][columna] = 'X';
+                mapaOcultJug1[fila][columna] = 'X';
+            }else{
+                mapaOcultJug1[fila][columna] = '=';
+            }
+
+        }
+
+        return  finalitzat;
+    }
+
 
 }
