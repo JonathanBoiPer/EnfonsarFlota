@@ -165,17 +165,5 @@ public class Servidor {
     }
 
 
-    /**
-     * Funcio per a parar l'execucio del programa momentariament
-     * @param segons Int,la quantitat de segons que es vol fer esperar
-     */
-    public static void sleep(int segons) {
-        try {
-            for (int i = 0; i < segons; i++) {
-                Thread.sleep(1000);
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
+    
 }
