@@ -27,7 +27,7 @@ public class Client1 {
     private static String filacol = "", usercolumna = "", orientacio = "", filacolTemp = "", userColTemp = "";
     private static int columna = 0, fila = 0, colTemp = 0;
     private static boolean valid;
-    private static String[] caselles = new String[20];
+    private static String[] caselles = new String[127];
 
     /**
      * Inicialitzar les diferents funcions del jugador
